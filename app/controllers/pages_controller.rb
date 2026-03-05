@@ -26,6 +26,10 @@ class PagesController < Eksa::Controller
     render :docs
   end
 
+  def kontak
+    render :kontak
+  end
+
   def edit
     @id = params['id']
     @pesan = Pesan.cari(@id)

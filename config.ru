@@ -11,5 +11,6 @@ app.add_route "/hapus", PagesController, :hapus_pesan
 app.add_route "/edit", PagesController, :edit
 app.add_route "/about", PagesController, :about
 app.add_route "/docs", PagesController, :docs
+app.add_route "/kontak", PagesController, :kontak
 
 run app
