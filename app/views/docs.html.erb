@@ -39,16 +39,44 @@
     </h2>
     <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10 space-y-3">
       <div>
-        <p class="text-white/30"># 1. Install gem secara lokal</p>
-        <p class="text-indigo-300">gem install ./eksa-framework-0.1.0.gem</p>
+        <p class="text-white/30"># 1. Install gem</p>
+        <p class="text-indigo-300">gem install eksa-framework</p>
       </div>
       <div>
         <p class="text-white/30"># 2. Inisialisasi project baru</p>
         <p class="text-indigo-300">eksa-init</p>
       </div>
       <div>
-        <p class="text-white/30"># 3. Jalankan server</p>
+        <p class="text-white/30"># 3. Install dependensi</p>
+        <p class="text-indigo-300">bundle install</p>
+      </div>
+      <div>
+        <p class="text-white/30"># 4. Jalankan server</p>
         <p class="text-indigo-300">rackup config.ru</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="struktur" class="mb-12 scroll-mt-24">
+    <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
+      <i data-lucide="folder-tree" class="w-6 h-6 text-indigo-400"></i> Struktur Project
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+        <code class="text-indigo-300 font-bold">app/</code>
+        <p class="text-xs text-white/50 mt-1">Berisi Controllers, Models, dan Views aplikasi Anda.</p>
+      </div>
+      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+        <code class="text-indigo-300 font-bold">db/</code>
+        <p class="text-xs text-white/50 mt-1">Lokasi penyimpanan database SQLite (Terpisah dari app).</p>
+      </div>
+      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+        <code class="text-indigo-300 font-bold">lib/eksa/</code>
+        <p class="text-xs text-white/50 mt-1">Mesin inti (Core Engine) dari Eksa Framework.</p>
+      </div>
+      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+        <code class="text-indigo-300 font-bold">exe/</code>
+        <p class="text-xs text-white/50 mt-1">Executable files seperti generator <code class="text-indigo-200">eksa-init</code>.</p>
       </div>
     </div>
   </section>
