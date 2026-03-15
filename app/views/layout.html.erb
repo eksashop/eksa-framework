@@ -10,6 +10,38 @@
   <meta property="og:title" content="Eksa Framework">
   <meta property="og:description" content="Membangun web cepat dengan estetika transparan.">
   <meta property="og:type" content="website">
+  
+  <% 
+    scheme = request.env['rack.url_scheme'] || 'https'
+    base_url = "#{scheme}://#{request.host}"
+    current_url = "#{base_url}#{request.path}"
+    
+    if @post
+      structured_data = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": @post.title,
+        "datePublished": (@post.date.is_a?(Time) ? @post.date.iso8601 : @post.date),
+        "author": {
+          "@type": "Person",
+          "name": "IshikawaUta"
+        },
+        "url": current_url,
+        "description": @post.body_html[0..160].gsub(/<[^>]*>/, '').strip + "..."
+      }
+    else
+      structured_data = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Eksa Framework",
+        "url": base_url,
+        "description": "Framework Ruby Modern dengan sentuhan Glassmorphism"
+      }
+    end
+  %>
+  <script type="application/ld+json">
+    <%= structured_data.to_json %>
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

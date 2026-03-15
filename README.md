@@ -18,6 +18,7 @@
 * 🧪 **Built-in Testing**: Lingkungan pengujian otomatis siap pakai menggunakan RSpec dan `rack-test`.
 * 🎨 **Asset Helpers**: Library bawaan untuk pengelolaan CSS dan JS yang lebih rapi.
 * 🔍 **Dynamic SEO Engine**: Penanganan otomatis file `robots.txt` dan `sitemap.xml`.
+* 💎 **JSON-LD Support**: Dukungan data terstruktur (Structured Data) otomatis untuk SEO yang lebih optimal.
 * 👻 **Aesthetic Error Pages**: Halaman 404 dengan desain Glassmorphism yang elegan secara native.
 
 ---
@@ -123,4 +124,4 @@ bundle exec rspec
 ---
 
 ## 📜 Lisensi
-Proyek ini dilisensikan di bawah **MIT License**. Lihat file [LICENSE](LICENSE) untuk detail lebih lanjut.
+Proyek ini dilisensikan di bawah **MIT License**. Lihat file [LICENSE](https://github.com/IshikawaUta/eksa-framework/blob/main/LICENSE) untuk detail lebih lanjut.

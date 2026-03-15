@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+# encoding: utf-8
+
 require 'yaml'
 require 'kramdown'
 
@@ -40,7 +43,7 @@ module Eksa
     private
 
     def load_file(file_path)
-      content = File.read(file_path)
+      content = File.read(file_path, encoding: 'utf-8')
       # Improved regex: handle optional trailing newline after second separator
       if content =~ /\A(---\s*\r?\n.*?\r?\n)^(---\s*\r?\n?)/m
         @metadata = YAML.safe_load($1, permitted_classes: [Time])

@@ -1,4 +1,5 @@
 require 'rack'
+require 'json'
 require_relative 'eksa/version'
 require_relative 'eksa/controller'
 require_relative 'eksa/model'
