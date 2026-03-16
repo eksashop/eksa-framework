@@ -24,7 +24,7 @@
         "datePublished": (@post.date.is_a?(Time) ? @post.date.iso8601 : @post.date),
         "author": {
           "@type": "Person",
-          "name": "IshikawaUta"
+          "name": (@post.author && !@post.author.empty?) ? @post.author : 'IshikawaUta'
         },
         "url": current_url,
         "description": @post.body_html[0..160].gsub(/<[^>]*>/, '').strip + "..."

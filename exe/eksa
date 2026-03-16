@@ -10,7 +10,7 @@ def usage
   puts "  eksa init              - Inisialisasi project baru"
   puts "  eksa g controller NAME - Generate controller baru"
   puts "  eksa g model NAME      - Generate model baru"
-  puts "  eksa g post TITLE      - Generate blog post markdown baru"
+  puts "  eksa g post TITLE      - Post baru [args: --category, --author, --image]"
   puts "  eksa run               - Jalankan server aplikasi"
   puts "-----------------------------\n"
 end
@@ -115,16 +115,23 @@ def generate_model(name)
   puts "  [OK] Created #{file_path}"
 end
 
-def generate_post(title)
+def generate_post(title, options = {})
   FileUtils.mkdir_p("_posts")
   date = Time.now.strftime("%Y-%m-%d")
   slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   filename = "_posts/#{date}-#{slug}.md"
 
+  author = options[:author] || ""
+  category = options[:category] || "Uncategorized"
+  image = options[:image] || ""
+
   content = <<~MARKDOWN
     ---
     title: "#{title}"
     date: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}
+    author: "#{author}"
+    category: "#{category}"
+    image: "#{image}"
     ---
 
     Tulis konten blog Anda di sini...
@@ -160,7 +167,15 @@ when 'g', 'generate'
   elsif subcommand == 'model' && name
     generate_model(name)
   elsif subcommand == 'post' && name
-    generate_post(name)
+    options = {}
+    while (arg = ARGV.shift)
+      case arg
+      when '--category' then options[:category] = ARGV.shift
+      when '--author'   then options[:author] = ARGV.shift
+      when '--image'    then options[:image] = ARGV.shift
+      end
+    end
+    generate_post(name, options)
   else
     usage
   end

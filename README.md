@@ -68,8 +68,8 @@ eksa g controller Blog
 # Membuat model dan schema database
 eksa g model Post
 
-# Membuat postingan blog baru
-eksa g post "Judul Artikel"
+# Membuat postingan blog baru dengan meta tambahan
+eksa g post "Judul Artikel" --category "Kategori" --author "Nama Penulis" --image "url-gambar.jpg"
 ```
 
 ### 3. Markdown Blog Engine

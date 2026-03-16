@@ -36,6 +36,18 @@ module Eksa
       @metadata['date'] || File.mtime(File.join(POSTS_DIR, @filename))
     end
 
+    def author
+      @metadata['author'] || ""
+    end
+
+    def category
+      @metadata['category'] || "Uncategorized"
+    end
+
+    def image
+      @metadata['image'] || ""
+    end
+
     def body_html
       Kramdown::Document.new(@content, input: 'GFM').to_html
     end

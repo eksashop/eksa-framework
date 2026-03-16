@@ -1,6 +1,9 @@
 ---
 title: "Welcome To Eksa Framework"
 date: 2026-03-15 14:09:58
+author: "IshikawaUta"
+category: "Framework"
+image: "https://res.cloudinary.com/dzsqaauqn/image/upload/v1773645204/logo_ne3hy4.png"
 ---
 
 # ✨ Eksa Framework
