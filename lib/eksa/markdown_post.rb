@@ -10,16 +10,19 @@ module Eksa
 
     POSTS_DIR = "_posts"
 
-    def self.all
+    def self.all(include_unpublished: false)
       return [] unless Dir.exist?(POSTS_DIR)
       
-      Dir.glob(File.join(POSTS_DIR, "*.md")).map do |file|
+      posts = Dir.glob(File.join(POSTS_DIR, "*.md")).map do |file|
         new(file)
-      end.sort_by { |p| p.date }.reverse
+      end
+      
+      posts.reject! { |p| !p.published? } unless include_unpublished
+      posts.sort_by { |p| p.date }.reverse
     end
 
     def self.find(slug)
-      all.find { |p| p.slug == slug }
+      all(include_unpublished: true).find { |p| p.slug == slug && p.published? }
     end
 
     def initialize(file_path)
@@ -46,6 +49,10 @@ module Eksa
 
     def image
       @metadata['image'] || ""
+    end
+
+    def published?
+      @metadata.key?('published') ? @metadata['published'] : true
     end
 
     def body_html

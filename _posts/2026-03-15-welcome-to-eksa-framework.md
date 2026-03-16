@@ -1,9 +1,10 @@
 ---
-title: "Welcome To Eksa Framework"
-date: 2026-03-15 14:09:58
-author: "IshikawaUta"
-category: "Framework"
-image: "https://res.cloudinary.com/dzsqaauqn/image/upload/v1773645204/logo_ne3hy4.png"
+published: true
+title: Welcome To Eksa Framework
+date: 2026-03-15 21:09:58.000000000 +07:00
+author: IshikawaUta
+category: Framework
+image: https://res.cloudinary.com/dzsqaauqn/image/upload/v1773645204/logo_ne3hy4.png
 ---
 
 # ✨ Eksa Framework
@@ -19,8 +20,11 @@ image: "https://res.cloudinary.com/dzsqaauqn/image/upload/v1773645204/logo_ne3hy
 * 🛠️ **Powerful CLI**: Inisialisasi project (`eksa init`), jalankan server (`eksa run`), generate komponen, dan **auto-routing** otomatis.
 * 💾 **Dynamic Database Engine**: Database SQLite otomatis dengan schema yang ditentukan oleh model Anda sendiri.
 * 🧪 **Built-in Testing**: Lingkungan pengujian otomatis siap pakai menggunakan RSpec dan `rack-test`.
+* 🛡️ **Built-in Authentication**: Sistem keamanan BCrypt dengan proteksi sesi Rack untuk registrasi log-in area Admin.
+* 📝 **Interactive CMS Dashboard**: Panel admin integratif untuk mengedit isi blog Markdown & transisi visibilitas via UI.
 * 🎨 **Asset Helpers**: Library bawaan untuk pengelolaan CSS dan JS yang lebih rapi.
 * 🔍 **Dynamic SEO Engine**: Penanganan otomatis file `robots.txt` dan `sitemap.xml`.
+* 💎 **JSON-LD Support**: Dukungan data terstruktur (Structured Data) otomatis untuk SEO yang lebih optimal.
 * 👻 **Aesthetic Error Pages**: Halaman 404 dengan desain Glassmorphism yang elegan secara native.
 
 ---
@@ -70,11 +74,26 @@ eksa g controller Blog
 # Membuat model dan schema database
 eksa g model Post
 
-# Membuat postingan blog baru
-eksa g post "Judul Artikel"
+# Membuat postingan blog baru dengan meta tambahan
+eksa g post "Judul Artikel" --category "Kategori" --author "Nama Penulis" --image "url-gambar.jpg"
+
+# Mengaktifkan/menonaktifkan fitur bawaan Eksa (auth / cms)
+eksa feature enable auth
+eksa feature enable cms
+
+# Mengatur ulang sandi akun admin CMS langsung dari CLI
+eksa reset-password admin PasswordBaru123
 ```
 
-### 3. Markdown Blog Engine
+### 3. CMS Dashboard & Authentication
+Eksa hadir dengan sistem manajemen konten internal bergaya Glassmorphism.
+
+*   **Aktivasi**: Pertama, jalankan `eksa feature enable auth` dan `eksa feature enable cms` dari terminal Anda lalu *restart* server.
+*   **Registrasi**: Akses `http://localhost:9292/auth/register` (Hanya akun pertama yang bisa mendaftar sebagai Administrator).
+*   **Akses Dasbor**: Masuk ke rute `/cms` untuk melihat postingan, mengubah status publikasi (*Draft* / *Aktif*), menghapus postingan, hingga melakukan edit data via editor terintegrasi.
+*   **Proteksi Taut**: Rute login dan CMS sepenuhnya difilter oleh perantara otentikasi sesi Rack. Admin yang berhasil masuk secara otomatis terlindungi dari paparan rute login berlebih.
+
+### 4. Markdown Blog Engine
 Eksa memiliki sistem blog bawaan yang cara kerjanya mirip Jekyll. Cukup buat file `.md` di folder `_posts/` dengan metadata YAML (Front Matter):
 
 ```markdown
@@ -126,4 +145,4 @@ bundle exec rspec
 ---
 
 ## 📜 Lisensi
-Proyek ini dilisensikan di bawah **MIT License**. Lihat file [LICENSE](https://github.com/IshikawaUta/eksa-framework/blob/8c8e9046cbce77bbeaeaf673b018eaf0c6db2bbc/LICENSE) untuk detail lebih lanjut.
+Proyek ini dilisensikan di bawah **MIT License**. Lihat file [LICENSE](https://github.com/IshikawaUta/eksa-framework/blob/main/LICENSE) untuk detail lebih lanjut.

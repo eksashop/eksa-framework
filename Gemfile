@@ -11,3 +11,5 @@ gem "rackup"
 gem 'sqlite3'
 gem 'kramdown'
 gem 'kramdown-parser-gfm'
+gem 'bcrypt', '~> 3.1'
+gem 'rack-session', '~> 2.0'

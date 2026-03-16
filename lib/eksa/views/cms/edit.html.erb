@@ -1,0 +1,63 @@
+<div class="glass max-w-4xl mx-auto rounded-3xl p-10 text-white animate__animated animate__zoomIn animate__faster relative overflow-hidden">
+  <div class="absolute inset-0 bg-yellow-500/10 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+  
+  <div class="relative z-10 flex items-center justify-between mb-8 pb-6 border-b border-white/10">
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 bg-yellow-500/20 rounded-2xl flex items-center justify-center border border-yellow-500/30 shadow-xl shadow-yellow-500/20">
+        <i data-lucide="edit-3" class="w-7 h-7 text-yellow-300"></i>
+      </div>
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight">Edit <span class="text-yellow-300">Post</span></h1>
+        <p class="text-white/50 text-sm mt-1">Mengedit <%= @post.filename %></p>
+      </div>
+    </div>
+    <a href="/cms" class="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl transition border border-white/10 text-sm font-medium flex items-center gap-2">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+    </a>
+  </div>
+
+  <form action="/cms/update/<%= @post.slug %>" method="post" class="relative z-10 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-yellow-300 uppercase tracking-widest">Judul Postingan</label>
+        <input type="text" name="title" value="<%= @post.title %>" required
+               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition">
+      </div>
+      
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-yellow-300 uppercase tracking-widest">Kategori</label>
+        <input type="text" name="category" value="<%= @post.category %>" required
+               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition">
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-yellow-300 uppercase tracking-widest">Penulis (Author)</label>
+        <input type="text" name="author" value="<%= @post.author %>" required
+               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition">
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-yellow-300 uppercase tracking-widest">Image Thumbnail URL</label>
+        <input type="text" name="image" value="<%= @post.image %>"
+               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition"
+               placeholder="Contoh: header.jpg atau kosongkan">
+      </div>
+    </div>
+
+    <div class="space-y-2 pt-4">
+      <label class="block text-xs font-bold text-yellow-300 uppercase tracking-widest">Konten (Markdown)</label>
+      <div class="relative group">
+        <textarea name="content" required rows="15"
+                  class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 font-mono text-sm leading-relaxed transition"><%= @post.content.strip %></textarea>
+        <!-- Decorative subtle icon -->
+        <i data-lucide="file-text" class="absolute bottom-4 right-4 w-12 h-12 text-white/5 pointer-events-none transition group-hover:text-yellow-500/10"></i>
+      </div>
+    </div>
+
+    <div class="pt-6 border-t border-white/5 flex justify-end">
+      <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-yellow-950 font-bold py-3 px-8 rounded-xl transition duration-300 shadow-xl shadow-yellow-500/20 flex items-center gap-2">
+        <i data-lucide="save" class="w-5 h-5"></i> Simpan Perubahan
+      </button>
+    </div>
+  </form>
+</div>

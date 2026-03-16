@@ -1,19 +1,25 @@
 require 'rack'
+require 'rack/session'
 require 'json'
 require_relative 'eksa/version'
 require_relative 'eksa/controller'
 require_relative 'eksa/model'
 require_relative 'eksa/markdown_post'
+require_relative 'eksa/user'
+require_relative 'eksa/auth_controller'
+require_relative 'eksa/cms_controller'
 
 module Eksa
   class Application
-    attr_reader :config, :middlewares
+    attr_reader :config, :middlewares, :features
 
     def initialize
       @routes = {}
       @middlewares = []
+      @features = load_feature_flags
       @config = {
-        db_path: File.expand_path("./db/eksa_app.db")
+        db_path: File.expand_path("./db/eksa_app.db"),
+        session_secret: ENV['SESSION_SECRET'] || 'eksa_super_secret_key_change_me_in_production_make_it_sixty_four_bytes_or_more'
       }
       yield self if block_given?
       configure_framework
@@ -21,6 +27,40 @@ module Eksa
 
     def configure_framework
       Eksa::Model.database_path = @config[:db_path]
+      
+      # Setup Session Middleware for Authentication
+      use Rack::Session::Cookie, secret: @config[:session_secret], key: 'eksa.session'
+      
+      auto_mount_features
+    end
+
+    def load_feature_flags
+      config_path = File.expand_path('./.eksa.json')
+      if File.exist?(config_path)
+        JSON.parse(File.read(config_path))
+      else
+        { 'cms' => false, 'auth' => false }
+      end
+    rescue JSON::ParserError
+      { 'cms' => false, 'auth' => false }
+    end
+
+    def auto_mount_features
+      if @features['auth']
+        add_route "/auth/login", Eksa::AuthController, :login
+        add_route "/auth/register", Eksa::AuthController, :register
+        add_route "/auth/logout", Eksa::AuthController, :logout
+        add_route "/auth/process_login", Eksa::AuthController, :process_login
+        add_route "/auth/process_register", Eksa::AuthController, :process_register
+      end
+
+      if @features['cms']
+        add_route "/cms", Eksa::CmsController, :index
+        add_route "/cms/edit/:slug", Eksa::CmsController, :edit
+        add_route "/cms/update/:slug", Eksa::CmsController, :update_post
+        add_route "/cms/toggle/:slug", Eksa::CmsController, :toggle_status
+        add_route "/cms/delete/:slug", Eksa::CmsController, :delete_post
+      end
     end
 
     def add_route(path, controller_class, action)
@@ -82,6 +122,9 @@ module Eksa
         else
           response = Rack::Response.new
           if controller_instance.status == 302
+            if controller_instance.flash[:notice] && !controller_instance.flash[:notice].empty?
+              response.set_cookie('eksa_flash', value: controller_instance.flash[:notice], path: '/')
+            end
             response.redirect(controller_instance.redirect_url, 302)
           else
             response.write(response_data)
@@ -89,7 +132,9 @@ module Eksa
           end
         end
 
-        response.delete_cookie('eksa_flash') if flash_message
+        if flash_message && controller_instance.status != 302
+          response.delete_cookie('eksa_flash', path: '/')
+        end
         response.finish
       else
         html = <<~HTML

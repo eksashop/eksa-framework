@@ -16,6 +16,8 @@
 * 🛠️ **Powerful CLI**: Inisialisasi project (`eksa init`), jalankan server (`eksa run`), generate komponen, dan **auto-routing** otomatis.
 * 💾 **Dynamic Database Engine**: Database SQLite otomatis dengan schema yang ditentukan oleh model Anda sendiri.
 * 🧪 **Built-in Testing**: Lingkungan pengujian otomatis siap pakai menggunakan RSpec dan `rack-test`.
+* 🛡️ **Built-in Authentication**: Sistem keamanan BCrypt dengan proteksi sesi Rack untuk registrasi log-in area Admin.
+* 📝 **Interactive CMS Dashboard**: Panel admin integratif untuk mengedit isi blog Markdown & transisi visibilitas via UI.
 * 🎨 **Asset Helpers**: Library bawaan untuk pengelolaan CSS dan JS yang lebih rapi.
 * 🔍 **Dynamic SEO Engine**: Penanganan otomatis file `robots.txt` dan `sitemap.xml`.
 * 💎 **JSON-LD Support**: Dukungan data terstruktur (Structured Data) otomatis untuk SEO yang lebih optimal.
@@ -70,9 +72,24 @@ eksa g model Post
 
 # Membuat postingan blog baru dengan meta tambahan
 eksa g post "Judul Artikel" --category "Kategori" --author "Nama Penulis" --image "url-gambar.jpg"
+
+# Mengaktifkan/menonaktifkan fitur bawaan Eksa (auth / cms)
+eksa feature enable auth
+eksa feature enable cms
+
+# Mengatur ulang sandi akun admin CMS langsung dari CLI
+eksa reset-password admin PasswordBaru123
 ```
 
-### 3. Markdown Blog Engine
+### 3. CMS Dashboard & Authentication
+Eksa hadir dengan sistem manajemen konten internal bergaya Glassmorphism.
+
+*   **Aktivasi**: Pertama, jalankan `eksa feature enable auth` dan `eksa feature enable cms` dari terminal Anda lalu *restart* server.
+*   **Registrasi**: Akses `http://localhost:9292/auth/register` (Hanya akun pertama yang bisa mendaftar sebagai Administrator).
+*   **Akses Dasbor**: Masuk ke rute `/cms` untuk melihat postingan, mengubah status publikasi (*Draft* / *Aktif*), menghapus postingan, hingga melakukan edit data via editor terintegrasi.
+*   **Proteksi Taut**: Rute login dan CMS sepenuhnya difilter oleh perantara otentikasi sesi Rack. Admin yang berhasil masuk secara otomatis terlindungi dari paparan rute login berlebih.
+
+### 4. Markdown Blog Engine
 Eksa memiliki sistem blog bawaan yang cara kerjanya mirip Jekyll. Cukup buat file `.md` di folder `_posts/` dengan metadata YAML (Front Matter):
 
 ```markdown
