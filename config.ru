@@ -15,6 +15,8 @@ app.add_route "/edit", PagesController, :edit
 app.add_route "/about", PagesController, :about
 app.add_route "/docs", PagesController, :docs
 app.add_route "/kontak", PagesController, :kontak
+app.add_route "/conduct", PagesController, :conduct
+app.add_route "/security", PagesController, :security
 app.add_route "/robots.txt", SeoController, :robots
 app.add_route "/sitemap.xml", SeoController, :sitemap
 app.add_route "/posts", PostsController, :index

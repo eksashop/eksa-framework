@@ -194,14 +194,57 @@
 
     <div class="flex items-center gap-4">
        <a href="https://github.com/IshikawaUta" target="_blank" class="p-2 hover:bg-white/10 rounded-full transition"><i data-lucide="github" class="w-5 h-5"></i></a>
+       <!-- Mobile Menu Button -->
+       <button onclick="toggleMobileMenu()" class="md:hidden p-2 hover:bg-white/10 rounded-full transition relative z-50">
+         <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+       </button>
     </div>
   </nav>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 z-[60] glass hidden animate__animated">
+    <div class="flex flex-col h-full p-8">
+      <div class="flex items-center justify-between mb-12">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-indigo-500 rounded-xl shadow-lg shadow-indigo-500/50">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <span class="text-xl font-extrabold tracking-tight">Eksa<span class="text-indigo-300">Framework</span></span>
+        </div>
+        <button onclick="toggleMobileMenu()" class="p-2 hover:bg-white/10 rounded-full transition">
+          <i data-lucide="x" class="w-6 h-6 text-white"></i>
+        </button>
+      </div>
+
+      <ul class="flex flex-col gap-6 text-2xl font-bold">
+        <li><a href="/" class="flex items-center gap-4 hover:text-indigo-300 transition" onclick="toggleMobileMenu()"><i data-lucide="home" class="w-8 h-8"></i> Home</a></li>
+        <li><a href="/about" class="flex items-center gap-4 hover:text-indigo-300 transition" onclick="toggleMobileMenu()"><i data-lucide="info" class="w-8 h-8"></i> About</a></li>
+        <li><a href="/docs" class="flex items-center gap-4 hover:text-indigo-300 transition" onclick="toggleMobileMenu()"><i data-lucide="book-open" class="w-8 h-8"></i> Docs</a></li>
+        <li><a href="/posts" class="flex items-center gap-4 hover:text-indigo-300 transition" onclick="toggleMobileMenu()"><i data-lucide="book" class="w-8 h-8"></i> Blog</a></li>
+        <li><a href="/kontak" class="flex items-center gap-4 hover:text-indigo-300 transition" onclick="toggleMobileMenu()"><i data-lucide="message-circle" class="w-8 h-8"></i> Contact</a></li>
+      </ul>
+
+      <div class="mt-auto pt-8 border-t border-white/10 flex flex-col gap-4">
+        <div class="flex justify-center gap-8">
+          <a href="/conduct" class="text-sm hover:text-white transition">Kode Etik</a>
+          <a href="/security" class="text-sm hover:text-white transition">Keamanan</a>
+        </div>
+        <div class="text-center opacity-40 text-xs">
+          Handcrafted with Ruby by IshikawaUta
+        </div>
+      </div>
+    </div>
+  </div>
 
   <main class="max-w-6xl mx-auto py-12 px-6 flex-grow animate__animated animate__fadeInUp">
     <%= @content %>
   </main>
 
   <footer class="py-8 text-center text-white/40 text-sm border-t border-white/5">
+    <div class="flex justify-center gap-6 mb-4">
+      <a href="/conduct" class="hover:text-white transition">Kode Etik</a>
+      <a href="/security" class="hover:text-white transition">Keamanan</a>
+    </div>
     <p>&copy; <%= Time.now.year %> <span class="font-bold text-white/60">Eksa Framework</span>. Crafted for speed.</p>
   </footer>
 
@@ -210,6 +253,26 @@
   <script>
     // Inisialisasi ikon Lucide
     lucide.createIcons();
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      const body = document.body;
+      
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        menu.classList.remove('animate__fadeOutRight');
+        menu.classList.add('animate__fadeInRight');
+        body.style.overflow = 'hidden'; // Prevent scrolling
+      } else {
+        menu.classList.remove('animate__fadeInRight');
+        menu.classList.add('animate__fadeOutRight');
+        body.style.overflow = ''; // Restore scrolling
+        setTimeout(() => {
+          menu.classList.add('hidden');
+        }, 500);
+      }
+    }
 
     // Setup Copy Buttons for Code Blocks
     document.querySelectorAll('pre').forEach((block) => {

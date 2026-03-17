@@ -1,0 +1,75 @@
+<div class="glass rounded-3xl p-10 text-white animate__animated animate__fadeIn">
+  <div class="flex items-center gap-4 mb-8">
+    <div class="p-4 bg-emerald-500 rounded-2xl shadow-xl">
+      <i data-lucide="lock" class="w-8 h-8"></i>
+    </div>
+    <h1 class="text-4xl font-extrabold tracking-tight">Kebijakan <span class="text-emerald-300">Keamanan</span></h1>
+  </div>
+
+  <div class="prose prose-invert max-w-none space-y-8 text-white/80 leading-relaxed">
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-2">Versi yang Didukung</h2>
+      <p>Kami menyarankan penggunaan versi terbaru untuk mendapatkan perbaikan keamanan terbaik.</p>
+      <div class="overflow-hidden rounded-xl border border-white/10 bg-white/5 mt-4">
+        <table class="w-full text-left">
+          <thead class="bg-white/10 border-white/10 text-white">
+            <tr>
+              <th class="px-6 py-3 font-semibold">Versi</th>
+              <th class="px-6 py-3 font-semibold">Status Dukungan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/10">
+            <tr class="border-white/10">
+              <td class="px-6 py-4">3.5.x</td>
+              <td class="px-6 py-4 text-emerald-300 font-bold">✅ Didukung (Aktif)</td>
+            </tr>
+            <tr class="opacity-50">
+              <td class="px-6 py-4">< 3.5</td>
+              <td class="px-6 py-4 text-rose-300">❌ Tidak Didukung</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="bg-indigo-500/10 border border-indigo-500/20 p-6 rounded-2xl">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+        <i data-lucide="alert-triangle" class="text-indigo-300"></i>
+        Melaporkan Kerentanan
+      </h2>
+      <p>Jika Anda menemukan masalah keamanan, harap <strong>JANGAN</strong> membuat isu publik. Laporkan secara privat melalui email:</p>
+      <p class="mt-4 text-center">
+        <a href="mailto:komikers09@gmail.com" class="inline-block no-underline bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl font-bold transition shadow-lg">
+          security@eksa-framework.dev
+        </a>
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-2">Proses Respons</h2>
+      <ul class="space-y-4">
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center font-bold">1</span>
+          <p>Konfirmasi penerimaan laporan dalam 48 jam.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center font-bold">2</span>
+          <p>Validasi dan pengerjaan perbaikan secara tertutup.</p>
+        </li>
+        <li class="flex gap-4">
+          <span class="flex-shrink-0 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center font-bold">3</span>
+          <p>Pembaruan berkala kepada pelapor mengenai progres.</p>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="mt-12 pt-8 border-t border-white/10 flex justify-between items-center">
+    <a href="/" class="flex items-center gap-2 text-indigo-300 hover:text-white transition font-bold">
+      <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Home
+    </a>
+    <span class="text-xs opacity-40 italic">We take security seriously.</span>
+  </div>
+</div>
+
+<script>lucide.createIcons();</script>

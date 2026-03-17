@@ -30,6 +30,14 @@ class PagesController < Eksa::Controller
     render :kontak
   end
 
+  def conduct
+    render :conduct
+  end
+
+  def security
+    render :security
+  end
+
   def edit
     @id = params['id']
     @pesan = Pesan.cari(@id)
