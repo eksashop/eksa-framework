@@ -3,11 +3,16 @@ GEM
   specs:
     base64 (0.3.0)
     bcrypt (3.1.21)
+    bson (5.2.0)
     diff-lcs (1.6.2)
+    dotenv (2.8.1)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
+    mongo (2.23.0)
+      base64
+      bson (>= 4.14.1, < 6.0.0)
     nio4r (2.7.5)
     puma (7.2.0)
       nio4r (~> 2.0)
@@ -40,8 +45,10 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1)
+  dotenv (~> 2.8)
   kramdown
   kramdown-parser-gfm
+  mongo (~> 2.19)
   puma
   rack
   rack-session (~> 2.0)
@@ -53,9 +60,12 @@ DEPENDENCIES
 CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.21) sha256=5964613d750a42c7ee5dc61f7b9336fb6caca429ba4ac9f2011609946e4a2dcf
+  bson (5.2.0) sha256=c468c1e8a3cfa1e80531cc519a890f85586986721d8e305f83465cc36bb82608
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
+  dotenv (2.8.1) sha256=c5944793349ae03c432e1780a2ca929d60b88c7d14d52d630db0508c3a8a17d8
   kramdown (2.5.2) sha256=1ba542204c66b6f9111ff00dcc26075b95b220b07f2905d8261740c82f7f02fa
   kramdown-parser-gfm (1.1.0) sha256=fb39745516427d2988543bf01fc4cf0ab1149476382393e0e9c48592f6581729
+  mongo (2.23.0) sha256=be2fe4cc6f7119fa6b79e82a1963b2406856b4dc92d0ccfb74db543897be3109
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
   puma (7.2.0) sha256=bf8ef4ab514a4e6d4554cb4326b2004eba5036ae05cf765cfe51aba9706a72a8
   rack (3.2.5) sha256=4cbd0974c0b79f7a139b4812004a62e4c60b145cba76422e288ee670601ed6d3

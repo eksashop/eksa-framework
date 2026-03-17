@@ -1,24 +1,10 @@
-require 'sqlite3'
-require 'fileutils'
+require_relative 'database'
 
 module Eksa
   class Model
-    class << self
-      attr_accessor :database_path
-    end
-
     def self.db
-      path = database_path || default_db_path
-      db_dir = File.dirname(path)
-      FileUtils.mkdir_p(db_dir) unless Dir.exist?(db_dir)
-      
-      @db ||= SQLite3::Database.new(path)
       ensure_schema
-      @db
-    end
-
-    def self.default_db_path
-      File.expand_path("../../db/eksa_app.db", __dir__)
+      Eksa::Database.adapter
     end
 
     def self.ensure_schema

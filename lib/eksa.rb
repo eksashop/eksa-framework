@@ -6,6 +6,7 @@ require_relative 'eksa/controller'
 require_relative 'eksa/model'
 require_relative 'eksa/markdown_post'
 require_relative 'eksa/user'
+require_relative 'eksa/database'
 require_relative 'eksa/auth_controller'
 require_relative 'eksa/cms_controller'
 
@@ -26,8 +27,6 @@ module Eksa
     end
 
     def configure_framework
-      Eksa::Model.database_path = @config[:db_path]
-      
       # Setup Session Middleware for Authentication
       use Rack::Session::Cookie, secret: @config[:session_secret], key: 'eksa.session'
       

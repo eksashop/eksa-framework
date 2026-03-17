@@ -1,13 +1,13 @@
-require 'sqlite3'
+require_relative '../lib/eksa'
 
-db = SQLite3::Database.new "eksa_app.db"
+db = Eksa::Database.adapter
 
 db.execute <<-SQL
   CREATE TABLE IF NOT EXISTS pesan (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     konten TEXT,
     pengirim TEXT
   );
 SQL
 
-puts "Database Eksa berhasil disiapkan!"
+puts "✅ Database Eksa berhasil disiapkan (Engine: #{Eksa::Database.adapter.class})!"

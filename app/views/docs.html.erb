@@ -6,7 +6,7 @@
       </div>
       <h1 class="text-4xl font-extrabold tracking-tight">Dokumentasi <span class="text-indigo-300">Eksa</span></h1>
     </div>
-    <p class="text-white/60 text-lg">Panduan profesional instalasi dan pengembangan aplikasi menggunakan Eksa Framework.</p>
+    <p class="text-white/60 text-lg">Panduan profesional instalasi dan pengembangan aplikasi menggunakan Eksa Framework v3.5.0.</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -14,6 +14,7 @@
       <h3 class="font-bold text-indigo-300 uppercase text-xs tracking-widest">Memulai</h3>
       <ul class="space-y-2 text-sm">
         <li><a href="#instalasi" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="download" class="w-3 h-3"></i> Instalasi Gem</a></li>
+        <li><a href="#keamanan" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="shield" class="w-3 h-3"></i> Setup Keamanan</a></li>
         <li><a href="#struktur" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="folder" class="w-3 h-3"></i> Struktur Project</a></li>
       </ul>
     </div>
@@ -21,16 +22,16 @@
       <h3 class="font-bold text-indigo-300 uppercase text-xs tracking-widest">Pengembangan</h3>
       <ul class="space-y-2 text-sm">
         <li><a href="#routing" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="git-branch" class="w-3 h-3"></i> Routing System</a></li>
-        <li><a href="#build" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="package" class="w-3 h-3"></i> Build Framework</a></li>
+        <li><a href="#database" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="database" class="w-3 h-3"></i> Agnostic Database</a></li>
+        <li><a href="#jit" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="zap" class="w-3 h-3"></i> JIT Schema</a></li>
       </ul>
     </div>
     <div class="space-y-4">
       <h3 class="font-bold text-indigo-300 uppercase text-xs tracking-widest">Fitur Core</h3>
       <ul class="space-y-2 text-sm">
-        <li><a href="#database" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="database" class="w-3 h-3"></i> Auto-Migration</a></li>
-        <li><a href="#flash" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="bell" class="w-3 h-3"></i> Flash UI</a></li>
         <li><a href="#blog" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="pen-tool" class="w-3 h-3"></i> Markdown Blog</a></li>
         <li><a href="#cms" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="layout-dashboard" class="w-3 h-3"></i> CMS & Auth</a></li>
+        <li><a href="#seo" class="hover:text-indigo-300 transition flex items-center gap-2"><i data-lucide="search" class="w-3 h-3"></i> SEO & JSON-LD</a></li>
       </ul>
     </div>
   </div>
@@ -49,85 +50,54 @@
         <p class="text-indigo-300">eksa init</p>
       </div>
       <div>
-        <p class="text-white/30"># 3. Install dependensi</p>
-        <p class="text-indigo-300">bundle install</p>
-      </div>
-      <div>
-        <p class="text-white/30"># 4. Jalankan server</p>
-        <p class="text-indigo-300">eksa run</p>
+        <p class="text-white/30"># 3. Jalankan server</p>
+        <p class="text-indigo-300">bundle install && eksa run</p>
       </div>
     </div>
   </section>
 
-  <section id="struktur" class="mb-12 scroll-mt-24">
+  <section id="keamanan" class="mb-12 scroll-mt-24">
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="folder-tree" class="w-6 h-6 text-indigo-400"></i> Struktur Project
+      <i data-lucide="shield-check" class="w-6 h-6 text-indigo-400"></i> Setup Keamanan (.env)
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">app/</code>
-        <p class="text-xs text-white/50 mt-1">Berisi Controllers, Models, dan Views aplikasi Anda.</p>
-      </div>
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">db/</code>
-        <p class="text-xs text-white/50 mt-1">Lokasi penyimpanan database SQLite (Terpisah dari app).</p>
-      </div>
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">lib/eksa/</code>
-        <p class="text-xs text-white/50 mt-1">Mesin inti (Core Engine) dari Eksa Framework.</p>
-      </div>
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">spec/</code>
-        <p class="text-xs text-white/50 mt-1">Folder testing otomatis menggunakan RSpec (disertakan saat <code class="text-indigo-200">init</code>).</p>
-      </div>
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">_posts/</code>
-        <p class="text-xs text-white/50 mt-1">Pusat file markdown untuk konten blog aplikasi.</p>
-      </div>
-      <div class="bg-white/5 p-4 rounded-xl border border-white/10">
-        <code class="text-indigo-300 font-bold">exe/</code>
-        <p class="text-xs text-white/50 mt-1">Executable files seperti CLI <code class="text-indigo-200">eksa</code>.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="routing" class="mb-12 scroll-mt-24">
-    <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="git-branch" class="w-6 h-6 text-indigo-400"></i> Routing System
-    </h2>
-    <p class="text-white/60 mb-4 text-sm">Definisikan rute aplikasi Anda di dalam file <code class="text-indigo-200">config.ru</code>. Eksa mendukung pemetaan URL ke Controller dan Action secara eksplisit.</p>
-    <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-white/30"># app.add_route(path, controller_class, action_symbol)</p>
-      <p class="text-indigo-300 italic">app.add_route "/", PagesController, :index</p>
-      <p class="text-indigo-300 italic">app.add_route "/about", PagesController, :about</p>
+    <p class="text-white/60 mb-4 text-sm">Gunakan file <code class="text-indigo-200">.env</code> untuk menyimpan kredensial sensitif seperti URI MongoDB Atlas dan Secret Session.</p>
+    <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10 space-y-2">
+      <p class="text-white/30"># Salin template example</p>
+      <p class="text-indigo-300">cp .env.example .env</p>
+      <p class="text-white/30 mt-4"># Isi EKSA_MONGODB_URI di dalam .env</p>
+      <p class="text-indigo-300">EKSA_MONGODB_URI="mongodb+srv://..."</p>
     </div>
   </section>
 
   <section id="database" class="mb-12 scroll-mt-24">
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="database" class="w-6 h-6 text-indigo-400"></i> Auto-Migration
+      <i data-lucide="database" class="w-6 h-6 text-indigo-400"></i> Agnostic Database Engine
     </h2>
-    <p class="text-white/60 mb-4 text-sm">Eksa secara otomatis membuat file database dan tabel saat aplikasi pertama kali dijalankan melalui <code class="text-indigo-200">Eksa::Model</code>.</p>
-    <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-indigo-300">def self.setup_initial_schema</p>
-      <p class="text-white/70 ml-4">@db.execute "CREATE TABLE IF NOT EXISTS pesan (...)"</p>
-      <p class="text-indigo-300">end</p>
+    <p class="text-white/60 mb-4 text-sm">Pindah dari SQLite lokal ke cloud MongoDB Atlas secara instan melalui CLI.</p>
+    <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10 space-y-4">
+      <div>
+        <p class="text-white/30"># Ganti tipe database</p>
+        <p class="text-indigo-300">eksa db switch mongo</p>
+      </div>
+      <div>
+        <p class="text-white/30"># Migrasi data otomatis (SQLite -> Mongo)</p>
+        <p class="text-indigo-300">eksa db migrate --from sqlite --to mongo</p>
+      </div>
     </div>
-    <p class="text-xs text-white/40 mt-3 italic">* Database tersimpan secara persisten di folder /db/eksa_app.db</p>
   </section>
 
-  <section id="flash" class="mb-12 scroll-mt-24">
+  <section id="jit" class="mb-12 scroll-mt-24">
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="bell" class="w-6 h-6 text-indigo-400"></i> Flash UI Notification
+      <i data-lucide="zap" class="w-6 h-6 text-indigo-400"></i> Just-In-Time Schema Initialization
     </h2>
-    <p class="text-white/60 mb-4 text-sm">Kirim feedback instan ke user menggunakan fitur redirect dengan notice.</p>
+    <p class="text-white/60 mb-4 text-sm">Anda tidak perlu lagi menjalankan migrasi manual. Eksa akan mendeteksi dan membuat tabel/koleksi secara otomatis tepat saat model pertama kali diakses.</p>
     <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-white/30"># Di dalam Controller</p>
-      <p class="text-indigo-300">redirect_to "/", notice: "Data berhasil disimpan!"</p>
-    </div>
-    <div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-3">
-        <i data-lucide="info" class="w-5 h-5 text-emerald-400"></i>
-        <p class="text-xs text-emerald-200/80">Sistem Flash Eksa menggunakan cookie sementara yang otomatis dihapus setelah notifikasi muncul (Standar Rack 3).</p>
+      <p class="text-white/30"># Definisikan saja di model</p>
+      <p class="text-indigo-300">class Post < Eksa::Model</p>
+      <p class="text-indigo-300 italic ml-4">def self.setup_schema</p>
+      <p class="text-indigo-300 italic ml-8">db.execute "CREATE TABLE IF NOT EXISTS ..."</p>
+      <p class="text-indigo-300 italic ml-4">end</p>
+      <p class="text-indigo-300">main</p>
     </div>
   </section>
 
@@ -135,55 +105,44 @@
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
       <i data-lucide="pen-tool" class="w-6 h-6 text-indigo-400"></i> Markdown Blog Engine
     </h2>
-    <p class="text-white/60 mb-4 text-sm">Kelola konten blog dengan file Markdown. Mendukung Front Matter YAML dan rute dinamis.</p>
+    <p class="text-white/60 mb-4 text-sm">Kelola konten blog dengan file Markdown. Mendukung Front Matter YAML, Syntax Highlighting, dan SEO otomatis.</p>
     <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-white/30"># Buat post baru lewat CLI (dengan opsi meta)</p>
-      <p class="text-indigo-300">eksa g post "Judul Postingan" --category "Tech" --author "Nama" --image "url.jpg"</p>
-      <p class="text-white/30 mt-4"># Akses di URL (Otomatis)</p>
-      <p class="text-white/70">/posts/:slug</p>
-    </div>
-    <div class="mt-4 p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-center gap-3">
-        <i data-lucide="zap" class="w-5 h-5 text-indigo-400"></i>
-        <p class="text-xs text-indigo-200/80">Sudah terintegrasi dengan Prism.js untuk highlighting kode otomatis dan tombol copy!</p>
+      <p class="text-white/30"># Generate post baru</p>
+      <p class="text-indigo-300">eksa g post "Judul Postingan" --category "Tech" --image "url.jpg"</p>
     </div>
   </section>
 
   <section id="cms" class="mb-12 scroll-mt-24">
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="layout-dashboard" class="w-6 h-6 text-indigo-400"></i> CMS Dashboard & Keamanan
+      <i data-lucide="layout-dashboard" class="w-6 h-6 text-indigo-400"></i> CMS Dashboard & Auth
     </h2>
-    <p class="text-white/60 mb-4 text-sm">Eksa difasilitasi dengan area protektif yang dapat dilalui pendaftaran mandiri jika belum ada entitas pendaftar, kemudian dikunci menggunakan otentikasi Rack + enkripsi BCrypt.</p>
+    <p class="text-white/60 mb-4 text-sm">Gunakan panel admin terintegrasi untuk mengelola postingan, status publikasi, dan keamanan akun.</p>
     <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-white/30"># Menghidupkan Engine Utama dari folder project</p>
+      <p class="text-white/30"># Aktivasi fitur</p>
       <p class="text-indigo-300">eksa feature enable auth</p>
       <p class="text-indigo-300">eksa feature enable cms</p>
-      <p class="text-white/30 mt-4"># Lupa sandi masuk halaman CMS?</p>
-      <p class="text-indigo-300">eksa reset-password usernameanda katasandibaru</p>
-    </div>
-    <div class="mt-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-3">
-        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
-        <p class="text-xs text-emerald-200/80">Jika integrasi Auth diaktifkan, masuklah ke URL <code class="text-white">/auth/register</code> saat pertama kali start. Setelah mendaftar The Vault (Dashboard) dapat diakses lewat <code class="text-white">/cms</code></p>
+      <p class="text-white/30 mt-4"># Akses Dashboard</p>
+      <p class="text-white/70">http://localhost:9292/cms</p>
     </div>
   </section>
 
-  <section id="build" class="mb-12 scroll-mt-24">
+  <section id="seo" class="mb-12 scroll-mt-24">
     <h2 class="text-2xl font-bold mb-4 flex items-center gap-2">
-      <i data-lucide="package-check" class="w-6 h-6 text-indigo-400"></i> Build & Publish
+      <i data-lucide="search" class="w-6 h-6 text-indigo-400"></i> SEO & JSON-LD (Structured Data)
     </h2>
-    <div class="bg-black/40 rounded-2xl p-6 font-mono text-sm border border-white/10">
-      <p class="text-white/30"># Build gem lokal</p>
-      <p class="text-indigo-300">gem build eksa-framework.gemspec</p>
-      <p class="text-white/30 mt-4"># Publish ke RubyGems / GitHub Packages</p>
-      <p class="text-indigo-300">gem push eksa-framework-3.4.3.gem</p>
+    <p class="text-white/60 mb-4 text-sm">Eksa v3.5.0 secara otomatis menyematkan data terstruktur untuk ranking pencarian yang lebih baik.</p>
+    <div class="bg-white/5 p-4 rounded-xl border border-white/10 flex items-center gap-3">
+        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+        <p class="text-xs text-white/70">Mendukung <code class="text-indigo-300">sitemap.xml</code>, <code class="text-indigo-300">robots.txt</code>, dan skema <code class="text-indigo-300">BlogPosting</code> secara dinamis.</p>
     </div>
   </section>
 
   <div class="mt-12 pt-8 border-t border-white/10 text-center">
     <div class="flex justify-center gap-4 mb-4">
         <span class="bg-indigo-500/20 text-indigo-300 text-[10px] px-3 py-1 rounded-full border border-indigo-500/30 uppercase tracking-tighter">Rack 3.0 Compatible</span>
-        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-tighter">SQLite3 Auto-Ready</span>
+        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-tighter">Production Ready</span>
     </div>
-    <p class="text-white/40 text-sm italic">Eksa Framework v3.4.3 Alpha Documentation</p>
+    <p class="text-white/40 text-sm italic">Eksa Framework v3.5.0 Professional Documentation</p>
     <a href="/" class="inline-block mt-6 text-indigo-300 hover:text-white transition font-bold flex items-center justify-center gap-2">
       <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Beranda
     </a>

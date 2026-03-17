@@ -1,4 +1,13 @@
 {
   "cms": true,
-  "auth": true
+  "auth": true,
+  "database": {
+    "type": "mongodb",
+    "sqlite": {
+      "path": "./db/eksa_app.db"
+    },
+    "mongodb": {
+      "uri": "ENV_VAR"
+    }
+  }
 }

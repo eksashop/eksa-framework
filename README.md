@@ -1,4 +1,4 @@
-# ✨ Eksa Framework
+# ✨ Eksa Framework v3.5.0
 
 [![Ruby Version](https://img.shields.io/badge/ruby-3.0+-red.svg)](https://www.ruby-lang.org/)
 [![Rack Version](https://img.shields.io/badge/rack-3.0+-blue.svg)](https://rack.github.io/)
@@ -9,18 +9,19 @@
 
 ---
 
-## 🚀 Fitur Unggulan
+## 🚀 Fitur Unggulan v3.5.0
 
 * 💎 **Modern Glassmorphism UI**: Tampilan transparan yang indah dengan Tailwind CSS & Lucide Icons.
 * ⚡ **Rack 3 & Middleware Support**: Mendukung standar terbaru dan pembuatan pipeline middleware kustom.
-* 🛠️ **Powerful CLI**: Inisialisasi project (`eksa init`), jalankan server (`eksa run`), generate komponen, dan **auto-routing** otomatis.
-* 💾 **Dynamic Database Engine**: Database SQLite otomatis dengan schema yang ditentukan oleh model Anda sendiri.
+* 🛠️ **Powerful CLI**: Inisialisasi project (`eksa init`), jalankan server (`eksa run`), generate komponen, ganti database, dan **migrasi data** otomatis.
+* 💾 **Agnostic Database Engine**: Dukungan multi-database (**SQLite** & **MongoDB Atlas**) dengan sistem adapter yang otomatis dan transparan.
+* 🛡️ **Secure Environment Variables**: Dukungan file `.env` untuk menyimpan kredensial database (MongoDB URI) secara aman.
+* ⚙️ **JIT Schema Initialization**: Inisialisasi tabel/koleksi secara otomatis tepat saat model pertama kali diakses.
 * 🧪 **Built-in Testing**: Lingkungan pengujian otomatis siap pakai menggunakan RSpec dan `rack-test`.
 * 🛡️ **Built-in Authentication**: Sistem keamanan BCrypt dengan proteksi sesi Rack untuk registrasi log-in area Admin.
 * 📝 **Interactive CMS Dashboard**: Panel admin integratif untuk mengedit isi blog Markdown & transisi visibilitas via UI.
+* 🔍 **Dynamic SEO Engine**: Penanganan otomatis file `robots.txt`, `sitemap.xml`, dan dukungan **JSON-LD** (Structured Data).
 * 🎨 **Asset Helpers**: Library bawaan untuk pengelolaan CSS dan JS yang lebih rapi.
-* 🔍 **Dynamic SEO Engine**: Penanganan otomatis file `robots.txt` dan `sitemap.xml`.
-* 💎 **JSON-LD Support**: Dukungan data terstruktur (Structured Data) otomatis untuk SEO yang lebih optimal.
 * 👻 **Aesthetic Error Pages**: Halaman 404 dengan desain Glassmorphism yang elegan secara native.
 
 ---
@@ -38,7 +39,13 @@ mkdir my-app && cd my-app
 eksa init
 ```
 
-### 3. Jalankan Server
+### 3. Konfigurasi Keamanan (Opsi MongoDB)
+Salin `.env.example` menjadi `.env` dan isi kredensial Anda:
+```bash
+cp .env.example .env
+```
+
+### 4. Jalankan Server
 ```bash
 bundle install
 eksa run
@@ -48,91 +55,68 @@ eksa run
 
 ## 💻 Panduan Pengembangan
 
-### 1. Konfigurasi Aplikasi (`config.ru`)
-Eksa kini menggunakan blok inisialisasi untuk konfigurasi yang lebih fleksibel:
-
-```ruby
-app = Eksa::Application.new do |config|
-  config.config[:db_path] = "./db/production.db"
-  
-  config.use Rack::Static, urls: ["/css", "/img"], root: "public"
-  config.use Rack::ShowExceptions
-end
-```
-
-### 2. CLI Generator
+### 1. CLI Generator & Utility
 Hemat waktu dengan menggunakan generator bawaan:
 
 ```bash
 # Membuat controller dan view template
-eksa g controller Blog
+eksa g controller Berita
 
-# Membuat model dan schema database
-eksa g model Post
+# Membuat model (Schema akan dibuat otomatis saat diakses)
+eksa g model Artikel
 
 # Membuat postingan blog baru dengan meta tambahan
-eksa g post "Judul Artikel" --category "Kategori" --author "Nama Penulis" --image "url-gambar.jpg"
+eksa g post "Panduan Eksa" --category "Tutorial" --author "Eksa Team" --image "url-gambar.jpg"
 
-# Mengaktifkan/menonaktifkan fitur bawaan Eksa (auth / cms)
+# Mengaktifkan/menonaktifkan fitur (auth / cms)
 eksa feature enable auth
 eksa feature enable cms
 
-# Mengatur ulang sandi akun admin CMS langsung dari CLI
-eksa reset-password admin PasswordBaru123
+# Manajemen Database (Switch & Migrate)
+eksa db switch mongo                             # Pindah ke MongoDB
+eksa db migrate --from sqlite --to mongo         # Pindah data ke Cloud
+
+# Reset Password Admin
+eksa reset-password admin PasswordRahasia123
 ```
 
-### 3. CMS Dashboard & Authentication
-Eksa hadir dengan sistem manajemen konten internal bergaya Glassmorphism.
-
-*   **Aktivasi**: Pertama, jalankan `eksa feature enable auth` dan `eksa feature enable cms` dari terminal Anda lalu *restart* server.
-*   **Registrasi**: Akses `http://localhost:9292/auth/register` (Hanya akun pertama yang bisa mendaftar sebagai Administrator).
-*   **Akses Dasbor**: Masuk ke rute `/cms` untuk melihat postingan, mengubah status publikasi (*Draft* / *Aktif*), menghapus postingan, hingga melakukan edit data via editor terintegrasi.
-*   **Proteksi Taut**: Rute login dan CMS sepenuhnya difilter oleh perantara otentikasi sesi Rack. Admin yang berhasil masuk secara otomatis terlindungi dari paparan rute login berlebih.
-
-### 4. Markdown Blog Engine
-Eksa memiliki sistem blog bawaan yang cara kerjanya mirip Jekyll. Cukup buat file `.md` di folder `_posts/` dengan metadata YAML (Front Matter):
-
-```markdown
----
-title: "Halo Eksa"
-date: 2026-03-15 14:00:00
----
-
-Isi konten blog menggunakan **Markdown**.
-```
-
-Fitur Blog:
-*   **Dynamic Slug**: Otomatis mengenali rute `/posts/:slug`.
-*   **Syntax Highlighting**: Kode di dalam blog otomatis berwarna & punya tombol copy.
-*   **Aesthetic UI**: Template blog bawaan dengan desain Glassmorphism.
-
-### 4. Database & Model
-Definisikan schema tabel Anda langsung di dalam model:
+### 2. Database & Model (Agnostic)
+Definisikan schema tabel Anda di dalam model. Eksa akan menanganinya secara cerdas baik di SQLite maupun MongoDB:
 
 ```ruby
-class Post < Eksa::Model
+class Artikel < Eksa::Model
   def self.setup_schema
     db.execute <<~SQL
-      CREATE TABLE IF NOT EXISTS posts (
+      CREATE TABLE IF NOT EXISTS artikels (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT,
-        content TEXT
+        judul TEXT,
+        konten TEXT,
+        penulis TEXT
       )
     SQL
+  end
+  
+  def self.semua
+    db.execute("SELECT * FROM artikels ORDER BY id DESC")
   end
 end
 ```
 
-### 4. Asset Helpers
-Gunakan helper di dalam view untuk menyisipkan asset:
+### 3. CMS Dashboard & Blog Engine
+Eksa memiliki sistem blog bawaan yang cara kerjaja mirip Jekyll namun dengan kemudahan CMS.
 
-```erb
-<%= stylesheet_tag "style" %>
-<%= javascript_tag "app" %>
-```
+- **Blog Markdown**: Simpan file `.md` di `_posts/` dengan Front Matter YAML.
+- **Dynamic Routing**: Otomatis mengenali rute `/posts/:slug`.
+- **Admin Panel**: Akses `/cms` untuk mengedit konten menggunakan editor terintegrasi, ganti status (*Draft/Published*), atau hapus postingan.
+
+### 4. SEO & Metadata
+Eksa secara otomatis menghasilkan:
+- `http://localhost:9292/sitemap.xml`
+- `http://localhost:9292/robots.txt`
+- **JSON-LD**: Skema `BlogPosting` dan `WebSite` disematkan otomatis pada layout untuk peringkat SEO yang lebih baik.
 
 ### 5. Menjalankan Test
-Pastikan aplikasi Anda berjalan dengan benar menggunakan RSpec:
+Gunakan RSpec yang sudah terkonfigurasi untuk memastikan aplikasi stabil:
 
 ```bash
 bundle exec rspec

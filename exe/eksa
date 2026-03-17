@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'json'
 
 def usage
   puts "\n✨ Eksa Framework CLI ✨"
@@ -13,6 +14,8 @@ def usage
   puts "  eksa g post TITLE      - Post baru [args: --category, --author, --image]"
   puts "  eksa feature ACTION F  - Toggle fitur: action=enable/disable, F=cms/auth"
   puts "  eksa reset-password USR PWD - Reset password akun admin"
+  puts "  eksa db switch TYPE [URI] - Ganti DB: TYPE=sqlite/mongo"
+  puts "  eksa db migrate --from TYPE --to TYPE - Pindahkan data antar DB"
   puts "  eksa run               - Jalankan server aplikasi"
   puts "-----------------------------\n"
 end
@@ -23,7 +26,7 @@ def init_project
   
   puts "🚀 Menginisialisasi project di: #{target_dir}"
   
-  items_to_init = ['app', 'lib', 'public', 'db', 'spec', '_posts', 'config.ru', 'Gemfile', 'README.md']
+  items_to_init = ['app', 'lib', 'public', 'db', 'spec', '_posts', 'config.ru', 'Gemfile', 'README.md', '.env.example']
   
   items_to_init.each do |item|
     source = File.join(gem_root, item)
@@ -179,20 +182,13 @@ end
 
 def reset_password(username, password)
   require 'bcrypt'
-  require 'sqlite3'
-  db_path = File.join(Dir.pwd, 'db', 'eksa_app.db')
-  
-  unless File.exist?(db_path)
-    puts "❌ Error: Database tidak ditemukan. Pastikan project sudah diinisialisasi."
-    return
-  end
-  
-  db = SQLite3::Database.new(db_path)
+  require_relative '../lib/eksa/database'
   
   begin
+    db = Eksa::Database.adapter
     user = db.execute("SELECT id FROM eksa_users WHERE username = ? LIMIT 1", [username]).first
-  rescue SQLite3::SQLException
-    puts "❌ Error: Tabel user tidak ditemukan. Apakah Anda sudah mengaktifkan auth?"
+  rescue => e
+    puts "❌ Error: Gagal mengakses database: #{e.message}"
     return
   end
   
@@ -202,6 +198,105 @@ def reset_password(username, password)
     puts "✅ Akses dipulihkan! Password untuk admin '#{username}' berhasil diubah."
   else
     puts "❌ Error: User '#{username}' tidak ditemukan dalam database."
+  end
+end
+
+def switch_database(type, uri = nil)
+  valid_types = ['sqlite', 'mongo', 'mongodb']
+  unless valid_types.include?(type.downcase)
+    puts "❌ Error: Tipe database tidak dikenali. Pilih: sqlite atau mongo."
+    return
+  end
+
+  config_path = File.join(Dir.pwd, '.eksa.json')
+  begin
+    config = File.exist?(config_path) ? JSON.parse(File.read(config_path)) : {}
+  rescue
+    config = {}
+  end
+
+  config['database'] ||= {}
+  config['database']['type'] = type.downcase == 'mongo' ? 'mongodb' : 'sqlite'
+  
+  if type.downcase == 'mongo' || type.downcase == 'mongodb'
+    if uri
+      config['database']['mongodb'] ||= {}
+      config['database']['mongodb']['uri'] = uri
+    elsif !ENV['EKSA_MONGODB_URI'] && !ENV['MONGODB_URI'] && !config.dig('database', 'mongodb', 'uri')
+      puts "⚠️  Peringatan: Anda memilih MongoDB tapi belum memberikan URI."
+      puts "   Gunakan: export EKSA_MONGODB_URI=\"YOUR_URI\""
+      puts "   Atau: eksa db switch mongo \"YOUR_URI\""
+    end
+  end
+
+  File.write(config_path, JSON.pretty_generate(config))
+  puts "⚙️  Database berhasil diubah ke: #{config['database']['type'].upcase}."
+end
+
+def migrate_database(from_type, to_type)
+  require_relative '../lib/eksa/database/sqlite_adapter'
+  require_relative '../lib/eksa/database/mongo_adapter'
+  require 'json'
+
+  config_path = File.join(Dir.pwd, '.eksa.json')
+  config = File.exist?(config_path) ? JSON.parse(File.read(config_path)) : {}
+
+  puts "🚀 Memulai migrasi data dari #{from_type.upcase} ke #{to_type.upcase}..."
+
+  source_adapter = create_specific_adapter(from_type, config)
+  target_adapter = create_specific_adapter(to_type, config)
+
+  # Migration logic for User model (the only one currently using Eksa::Model)
+  puts "  📦 Memindahkan tabel 'eksa_users'..."
+  
+  begin
+    # Source data
+    users = source_adapter.execute("SELECT id, username, password_hash FROM eksa_users")
+    
+    # Target setup
+    target_adapter.execute("CREATE TABLE IF NOT EXISTS eksa_users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password_hash TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)")
+    
+    count = 0
+    users.each do |user|
+      # user is [id, username, password_hash]
+      # Check if user already exists in target
+      existing = target_adapter.execute("SELECT id FROM eksa_users WHERE username = ?", [user[1]])
+      
+      if existing.empty?
+        target_adapter.execute("INSERT INTO eksa_users (username, password_hash) VALUES (?, ?)", [user[1], user[2]])
+        count += 1
+      else
+        puts "  ⚠️  User '#{user[1]}' sudah ada di target, melewati..."
+      end
+    end
+    
+    puts "  ✅ Berhasil memindahkan #{count} user."
+    puts "\n🎉 Migrasi Selesai!"
+  rescue => e
+    puts "❌ Terjadi kesalahan saat migrasi: #{e.message}"
+  end
+end
+
+def create_specific_adapter(type, config)
+  case type.downcase
+  when 'mongo', 'mongodb'
+    require_relative '../lib/eksa/database/mongo_adapter'
+    mongo_config = config.dig('database', 'mongodb') || {}
+    
+    # Load .env for CLI
+    begin
+      require 'dotenv'
+      Dotenv.load if File.exist?('.env')
+    rescue LoadError
+    end
+
+    env_uri = ENV['EKSA_MONGODB_URI'] || ENV['MONGODB_URI']
+    mongo_config['uri'] = env_uri if env_uri
+
+    Eksa::MongoAdapter.new(mongo_config)
+  else
+    require_relative '../lib/eksa/database/sqlite_adapter'
+    Eksa::SqliteAdapter.new(config.dig('database', 'sqlite'))
   end
 end
 
@@ -258,6 +353,34 @@ when 'reset-password'
     reset_password(username, password)
   else
     puts "❌ Error: Argumen tidak lengkap. Gunakan: eksa reset-password USERNAME NEW_PASSWORD"
+  end
+when 'db'
+  subcommand = ARGV.shift
+  case subcommand
+  when 'switch'
+    type = ARGV.shift
+    uri = ARGV.shift
+    if type
+      switch_database(type, uri)
+    else
+      puts "❌ Error: Tipe database harus diisi. Gunakan: eksa db switch [sqlite|mongo]"
+    end
+  when 'migrate'
+    from = nil
+    to = nil
+    while (arg = ARGV.shift)
+      case arg
+      when '--from' then from = ARGV.shift
+      when '--to'   then to = ARGV.shift
+      end
+    end
+    if from && to
+      migrate_database(from, to)
+    else
+      puts "❌ Error: Argumen tidak lengkap. Gunakan: eksa db migrate --from TYPE --to TYPE"
+    end
+  else
+    usage
   end
 else
   usage

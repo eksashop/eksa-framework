@@ -9,6 +9,8 @@ gem 'rack'
 gem 'puma'
 gem "rackup"
 gem 'sqlite3'
+gem 'mongo', '~> 2.19'
+gem 'dotenv', '~> 2.8'
 gem 'kramdown'
 gem 'kramdown-parser-gfm'
 gem 'bcrypt', '~> 3.1'
