@@ -302,7 +302,22 @@ end
 
 def start_server
   if File.exist?('config.ru')
+    puts "\e[1;34m"
+    puts " ______ _  __ _____  _____ "
+    puts "|  ____| |/ // ____|/ ____|"
+    puts "| |__  | ' /| (___ | (___  "
+    puts "|  __| |  <  \\___ \\ \\___ \\ "
+    puts "| |____| . \\ ____) |____) |"
+    puts "|______|_|\\_\\_____/|_____/ "
+    puts "\e[0m"
+    puts "✨ Eksa Framework ✨"
+    puts "-----------------------------"
     puts "🚀 Memulai Eksa Framework Server..."
+    puts "📂 Project: #{Dir.pwd}"
+    puts "🌐 Listening on http://127.0.0.1:9292"
+    puts "📄 Environment: development"
+    puts "-----------------------------"
+    
     exec "rackup config.ru"
   else
     puts "❌ Error: config.ru tidak ditemukan. Pastikan Anda berada di root project Eksa."
